@@ -17,7 +17,7 @@
 	  
       }
 
-      private function setConfigFolder($configFolder) {
+      public  function setConfigFolder($configFolder) {
 	  if (!$configFolder) {
 	      throw new \Exception('Empty config folder path:');
 	  }
@@ -27,9 +27,20 @@
 	      $this->_configArray = array();
 	      $this->_configFolder = $_configFolder . DIRECTORY_SEPARATOR;
 	  } else {
-	      throw new \Exception('Culdnt directory read error:' . $_configFolder);
+	      throw new \Exception('Culdnt directory read error:' . $configFolder);
 	  }
+	  echo $_configFolder;
       }
-
+      
+      /**
+       * 
+       * @return \GF\Config
+       */
+      public static function getInstance(){
+	  if(self::$_instance == NULL){
+	     self::$_instance = new \GF\Config();
+	  }
+	  return self::$_instance;
+      }
   }
   
