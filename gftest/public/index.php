@@ -1,6 +1,8 @@
 <?php
-include '../../gf/App.php';
-$app = \GF\App::getInstance();
-$config = \GF\Config::getInstance();
-$config->setConfigFolder('../config');
-$app->run();
+
+  error_reporting(E_ALL ^ E_NOTICE);
+  include '../../gf/App.php';
+  $app = \GF\App::getInstance();
+  echo $app->getConfig()->app;
+  $app->run();
+  

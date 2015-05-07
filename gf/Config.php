@@ -17,7 +17,7 @@
 	  
       }
 
-      public  function setConfigFolder($configFolder) {
+      public function setConfigFolder($configFolder) {
 	  if (!$configFolder) {
 	      throw new \Exception('Empty config folder path:');
 	  }
@@ -26,21 +26,54 @@
 	      //clear old config data
 	      $this->_configArray = array();
 	      $this->_configFolder = $_configFolder . DIRECTORY_SEPARATOR;
+	      $ns = $this->app['namespaces'];
+	      if(is_array($ns)){
+		  \GF\Loader::registerNamespace($ns);
+	      }
 	  } else {
 	      throw new \Exception('Culdnt directory read error:' . $configFolder);
 	  }
-	  echo $_configFolder;
       }
       
+      public function getConfigFolder() {
+	  return $this->_configFolder;
+      }
+
+      public function includeConfigFile($path) {
+	  if (!$path) {
+	      //TODO
+	      throw new Exception;
+	  }
+	  $_file = realpath($path);
+	  if ($_file != FALSE && is_file($_file) && is_readable($_file)) {
+	      $_basename = explode('.php', basename($_file))[0];
+	      $this->_configArray[$_basename] = include $_file;
+	  } else {
+	      //TODO
+	      throw new \Exception('Config file read error:' . $path);
+	  }
+      }
+
+      public function __get($name) {
+	  if (!$this->_configArray[$name]) {
+	      $this->includeConfigFile($this->_configFolder . $name . '.php');
+	  }
+	  if (array_key_exists($name, $this->_configArray)) {
+	      return $this->_configArray[$name];
+	  }
+	  return NULL;
+      }
+
       /**
        * 
        * @return \GF\Config
        */
-      public static function getInstance(){
-	  if(self::$_instance == NULL){
-	     self::$_instance = new \GF\Config();
+      public static function getInstance() {
+	  if (self::$_instance == NULL) {
+	      self::$_instance = new \GF\Config();
 	  }
 	  return self::$_instance;
       }
+
   }
   
