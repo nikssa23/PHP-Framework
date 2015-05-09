@@ -56,6 +56,16 @@
 	      throw new \Exception('Invalid namespace: ' . $namespace);
 	  }
       }
+      
+      public static function registerNameSpaces($ar){
+	  if(is_array($ar)){
+	      foreach ($ar as $key => $value) {
+		  self::registerNamespace($key, $value);
+	      }
+	  }else{
+	      throw new \Exception('Invalide namespaces');
+	  }
+      }
 
       public static function getNamespaces() {
 	  return self::$namespaces;

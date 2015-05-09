@@ -28,7 +28,7 @@
 	      $this->_configFolder = $_configFolder . DIRECTORY_SEPARATOR;
 	      $ns = $this->app['namespaces'];
 	      if(is_array($ns)){
-		  \GF\Loader::registerNamespace($ns);
+		  \GF\Loader::registerNamespaces($ns);
 	      }
 	  } else {
 	      throw new \Exception('Culdnt directory read error:' . $configFolder);
