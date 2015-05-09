@@ -14,6 +14,7 @@ include_once 'Loader.php';
 
       private static $_instance = null;
       private $_config = null;
+      private $router = null;
 
       /**
        * @var \GF\FrontController
@@ -28,6 +29,14 @@ include_once 'Loader.php';
 	  if ($this->_config->getConfigFolder() == null) {
 	      $this->setConfigFolder('../config');
 	  }
+      }
+
+      function getRouter() {
+	  return $this->router;
+      }
+
+      function setRouter($router) {
+	  $this->router = $router;
       }
 
       public function setConfigFolder($path) {
@@ -51,6 +60,15 @@ include_once 'Loader.php';
 	      $this->setConfigFolder('../config');
 	  }
 	  $this->_frontController = \GF\FrontController::getInstance();
+	  if ($this->router instanceof \GF\Routers\IRouter) {
+	      $this->_frontController->setRouter($this->router);
+	  } else if ($this->router == 'JsonRPCRouter') {
+	      $this->_frontController->setRouter(new \GF\Routers\DefaultRouter());
+	  } else if ($this->router == 'CLIRouter') {
+	      $this->_frontController->setRouter(new \GF\Routers\DefaultRouter());
+	  } else {
+	      $this->_frontController->setRouter(new \GF\Routers\DefaultRouter());
+	  }
 	  $this->_frontController->dispatch();
       }
 

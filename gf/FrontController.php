@@ -12,14 +12,25 @@
       private $ns = null;
       private $controller = null;
       private $method = null;
+      private $router = null;
 
       public function __construct() {
 	  
       }
 
+      function getRouter() {
+	  return $this->router;
+      }
+
+      function setRouter(\GF\Routers\IRouter $router) {
+	  $this->router = $router;
+      }
+
       public function dispatch() {
-	  $a = new \GF\Routers\DefaultRouter();
-	  $_uri = $a->getURI();
+	  if($this->router == null){
+	      throw new Exception('Not valid router found',500);
+	  }
+	  $_uri = $this->router->getURI();
 	  $_rc = null;
 	  $routes = \GF\App::getInstance()->getConfig()->routes;
 	  if (is_array($routes) && count($routes) > 0) {
@@ -43,9 +54,9 @@
 
 	  $_params = explode('/', $_uri);
 	  if ($_params[0]) {
-	      $this->controller = $_params[0];
+	      $this->controller = strtolower($_params[0]);
 	      if ($_params[1]) {
-		  $this->method = $_params[1];
+		  $this->method = strtolower($_params[1]);
 	      } else {
 		  $this->method = $this->getDefaultMethod();
 	      }
@@ -56,15 +67,15 @@
 
 	  if (is_array($_rc) && $_rc['controllers']) {
 	      if ($_rc['controllers'][$this->controller]['methods'][$this->method]) {
-		  $this->method = $_rc['controllers'][$this->controller]['methods'][$this->method];
+		  $this->method = strtolower($_rc['controllers'][$this->controller]['methods'][$this->method]);
 	      }
 	      if (isset($_rc['controllers'][$this->controller]['to'])) {
-		  $this->controller = $_rc['controllers'][$this->controller]['to'];
+		  $this->controller = strtolower($_rc['controllers'][$this->controller]['to']);
 	      }
 	  }
 //	  echo $this->ns . '<br />';
 //	  echo $this->controller . '<br />';
-	  $f = $this->ns . '\\' . $this->controller;
+	  $f = $this->ns . '\\' . ucfirst($this->controller);
 	  $newController = new $f();
 	  $newController->{$this->method}();
       }
@@ -72,17 +83,17 @@
       public function getDefaultController() {
 	  $controller = \GF\App::getInstance()->getConfig()->app['default_controller'];
 	  if ($controller) {
-	      return $controller;
+	      return strtolower($controller);
 	  }
-	  return 'Index';
+	  return 'index';
       }
 
       public function getDefaultMethod() {
 	  $method = \GF\App::getInstance()->getConfig()->app['default_method'];
 	  if ($method) {
-	      return $method;
+	      return strtolower($method);
 	  }
-	  return 'Index';
+	  return 'index';
       }
 
       /**
