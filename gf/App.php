@@ -16,6 +16,7 @@ include_once 'Loader.php';
       private $_config = null;
       private $router = null;
       private $_dbConnections = null;
+      private $_session = null;
 
       /**
        * @var \GF\FrontController
@@ -70,7 +71,33 @@ include_once 'Loader.php';
 	  } else {
 	      $this->_frontController->setRouter(new \GF\Routers\DefaultRouter());
 	  }
+
+	  $_sess = $this->_config->app['session'];
+	  if ($_sess['autostart']) {
+	      if ($_sess['type'] == 'native') {
+		  $_s = new \GF\Session\NativSession($_sess['name'], $_sess['lifetime'], $_sess['path'], $_sess['domain'], $_sess['secure']);
+		  $this->setSession($_s);
+	      } else if ($_sess['type'] == 'database') {
+		  $_s = new \GF\Session\DBSession($_sess['dbConnection'], $_sess['name'], $_sess['dbTable'], $_sess['lifetime'], $_sess['path'], $_sess['domain'], $_sess['secure']);
+		  $this->setSession($_s);
+	      } else {
+		  throw new Exception('Not valid Session', 500);
+	      }
+	  }
+
 	  $this->_frontController->dispatch();
+      }
+
+      public function setSession(\GF\Session\ISession $session) {
+	  $this->_session = $session;
+      }
+
+      /*
+       * @return \GF\Session\ISession
+       */
+
+      public function getSession() {
+	  return $this->_session;
       }
 
       public function getDBConnection($connection = 'default') {
@@ -99,6 +126,12 @@ include_once 'Loader.php';
 	  }
 
 	  return self::$_instance;
+      }
+
+      public function __destruct() {
+	  if ($this->_session != null) {
+	      $this->_session->SaveSession();
+	  }
       }
 
   }

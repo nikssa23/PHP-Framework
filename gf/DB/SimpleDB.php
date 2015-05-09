@@ -102,12 +102,3 @@
       }
 
   }
-
-  class test extends \GF\DB\SimpleDB {
-
-      public function __construct($connection = null) {
-	  parent::__construct();
-      }
-
-  }
-  

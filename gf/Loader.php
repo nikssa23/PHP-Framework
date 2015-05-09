@@ -25,9 +25,12 @@
       }
 
       public static function loadClass($class) {
+
 	  foreach (self::$namespaces as $k => $v) {
 	      if (strpos($class, $k) === 0) {
+		  // var_dump($class);
 		  $file = realpath(substr_replace(str_replace('\\', DIRECTORY_SEPARATOR, $class), $v, 0, strlen($k)) . '.php');
+		  // var_dump($file);
 		  if ($file && is_readable($file)) {
 		      include $file;
 		  } else {
@@ -56,13 +59,13 @@
 	      throw new \Exception('Invalid namespace: ' . $namespace);
 	  }
       }
-      
-      public static function registerNameSpaces($ar){
-	  if(is_array($ar)){
+
+      public static function registerNameSpaces($ar) {
+	  if (is_array($ar)) {
 	      foreach ($ar as $key => $value) {
 		  self::registerNamespace($key, $value);
 	      }
-	  }else{
+	  } else {
 	      throw new \Exception('Invalide namespaces');
 	  }
       }
