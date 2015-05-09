@@ -1,2 +1,0 @@
-<?php
-$cnf['name']  = 'niki';

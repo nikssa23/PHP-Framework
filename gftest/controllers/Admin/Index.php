@@ -13,7 +13,7 @@
    * @author Nikolay Velchev <n.velchev95@gmail.com>
    */
   class Index {
-      public function Index2(){
+      public function index2(){
 	  echo 'basi kefa';
       }
   }

@@ -13,6 +13,9 @@
    * @author Nikolay Velchev <n.velchev95@gmail.com>
    */
   class Index {
-      
+      public function Index2(){
+	  $view = \GF\View::getInstance();
+	  $view->display('index');
+      }
   }
   
