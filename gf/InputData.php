@@ -77,6 +77,10 @@
 	  return $default;
       }
 
+      /**
+       * 
+       * @return \GF\InputData
+       */
       public static function getInstance() {
 	  if (self::$_instance == null) {
 	      self::$_instance = new \GF\App();

@@ -44,5 +44,20 @@
 	  return $data;
       }
 
+      public static function headerStatus($code) {
+	  $codes = array(
+	      100 => 'Continue',
+	      400 => 'Bad Request',
+	      404 => 'Not Found',
+	      500 => 'Internal Server Error',
+	      501 => 'Not Implemented',
+	      502 => 'Bad Gateway',
+	  );
+	  if (!$codes[$code]) {
+	      $code = 500;
+	  }
+	  header($_SERVER['SERVER_PROTOCOL'] . ' ' . $code . ' ' . $codes[$code], true, $code);
+      }
+
   }
   

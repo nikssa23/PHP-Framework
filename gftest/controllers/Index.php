@@ -13,9 +13,18 @@
    * @author Nikolay Velchev <n.velchev95@gmail.com>
    */
   class Index {
-      public function Index2(){
+
+      public function Index2() {
+	  $inpputData = new \GF\InputData::getInstance()->get(0);
+	  $val = new \GF\Validation();
+	  $val->setRule('minlenght', 'niki', 12,'gre6no e be gre6no e ');
+	  var_dump($val->validate());
+	  var_dump($val->getErrors());
+
 	  $view = \GF\View::getInstance();
-	  $view->display('index');
+	  $view->appendToLayout('pice', 'index');
+	  $view->display('ladyouts.default');
       }
+
   }
   

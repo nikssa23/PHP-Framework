@@ -24,6 +24,7 @@ include_once 'Loader.php';
       private $_frontController = null;
 
       private function __construct() {
+	  set_exception_handler(array($this, '_exceptionHandler'));
 	  \GF\Loader::registerNamespace('GF', dirname(__FILE__) . DIRECTORY_SEPARATOR);
 	  \GF\Loader::registerAutoload();
 	  $this->_config = \GF\Config::getInstance();
@@ -131,6 +132,25 @@ include_once 'Loader.php';
       public function __destruct() {
 	  if ($this->_session != null) {
 	      $this->_session->SaveSession();
+	  }
+      }
+
+      private function _exceptionHandler(\Exception $ex) {
+	  if ($this->_config && $this->_config->app['displayExceptions'] == true) {
+	      echo '<pre>' . print_r($ex) . '</pre>';
+	  } else {
+	      $this->displayError($ex->getCode());
+	  }
+      }
+
+      private function displayError($error) {
+	  try {
+	      $view = \GF\View::getInstance();
+	      $view->display('errors.' . $error);
+	  } catch (\Exception $exc) {
+	      \GF\Common::headerStatus($error);
+	      echo '<h1>' . $error . '</h1>';
+	      exit;
 	  }
       }
 

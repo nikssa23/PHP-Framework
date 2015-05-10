@@ -27,8 +27,8 @@
       }
 
       public function dispatch() {
-	  if($this->router == null){
-	      throw new Exception('Not valid router found',500);
+	  if ($this->router == null) {
+	      throw new Exception('Not valid router found', 500);
 	  }
 	  $_uri = $this->router->getURI();
 	  $_rc = null;
@@ -51,12 +51,14 @@
 	  } else if ($this->ns == null && !$routes['*']['namespace']) {
 	      throw new Exception('Default route missing', 500);
 	  }
-
+	  $input = \GF\InputData::getInstance();
 	  $_params = explode('/', $_uri);
 	  if ($_params[0]) {
 	      $this->controller = strtolower($_params[0]);
 	      if ($_params[1]) {
 		  $this->method = strtolower($_params[1]);
+		  unset($_params[0], $_params[1]);
+		  $input->seGget(array_values($_params));
 	      } else {
 		  $this->method = $this->getDefaultMethod();
 	      }
@@ -73,6 +75,8 @@
 		  $this->controller = strtolower($_rc['controllers'][$this->controller]['to']);
 	      }
 	  }
+
+	  $input->setPost($this->router->getPost());
 //	  echo $this->ns . '<br />';
 //	  echo $this->controller . '<br />';
 	  $f = $this->ns . '\\' . ucfirst($this->controller);

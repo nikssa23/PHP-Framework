@@ -10,15 +10,17 @@
   class View {
 
       private static $_instance = null;
-      private $viewPath = null;
-      private $viewDir = null;
-      private $extension = '.php';
-      private $data = array();
+      private $_viewPath = null;
+      private $_viewDir = null;
+      private $_extension = '.php';
+      private $_data = array();
+      private $_layoutParts = array();
+      private $_layoutData = array();
 
       private function __construct() {
-	  $this->viewPath = \GF\App::getInstance()->getConfig()->app['viewsDirectory'];
-	  if ($this->viewPath == null) {
-	      $this->viewPath = realpath('../views/');
+	  $this->_viewPath = \GF\App::getInstance()->getConfig()->app['viewsDirectory'];
+	  if ($this->_viewPath == null) {
+	      $this->_viewPath = realpath('../views/');
 	  }
       }
 
@@ -27,7 +29,7 @@
 	  if ($path) {
 	      $path = realpath($path) . DIRECTORY_SEPARATOR;
 	      if (is_dir($path) && is_readable($path)) {
-		  $this->viewDir = $path;
+		  $this->_viewDir = $path;
 	      } else {
 		  //todo
 		  throw new Exception('view path', 500);
@@ -40,7 +42,15 @@
 
       public function display($name, $data = array(), $returnAsString = false) {
 	  if (is_array($data)) {
-	      $this->data = array_merge($this->data, $data);
+	      $this->_data = array_merge($this->_data, $data);
+	  }
+	  if (count($this->_layoutParts) > 0) {
+	      foreach ($this->_layoutParts as $key => $value) {
+		  $r = $this->_includeFile($v);
+		  if ($r) {
+		      $this->_layoutData[$k] = $r;
+		  }
+	      }
 	  }
 	  if ($returnAsString) {
 	      return $this->_includeFile($name);
@@ -50,11 +60,10 @@
       }
 
       public function _includeFile($file) {
-	  if ($this->viewDir == null) {
-	      $this->setViewDirectory($this->viewPath);
+	  if ($this->_viewDir == null) {
+	      $this->setViewDirectory($this->_viewPath);
 	  }
-	  $p = str_replace('.', DIRECTORY_SEPARATOR, $file);
-	  $fl = $this->viewDir . $p . $this->extension;
+	  $fl = $this->_viewDir . str_replace('.', DIRECTORY_SEPARATOR, $file) . $this->_extension;
 	  if (file_exists($fl) && is_readable($fl)) {
 	      ob_start();
 	      include $fl;
@@ -64,12 +73,24 @@
 	  }
       }
 
+      public function appendToLayout($key, $template) {
+	  if ($key && $template) {
+	      $this->_layoutParts[$key] = $template;
+	  } else {
+	      throw new Exception('Layout required valid key and template', 500);
+	  }
+      }
+
+      public function getLayoutData($name) {
+	  return $this->_layoutData[$name];
+      }
+
       public function __set($name, $value) {
-	  $this->data[$name] = $value;
+	  $this->_data[$name] = $value;
       }
 
       public function __get($name) {
-	  return $this->data[$name];
+	  return $this->_data[$name];
       }
 
       /**
@@ -85,4 +106,3 @@
       }
 
   }
-  
