@@ -19,6 +19,8 @@
       public function __construct() {
 	  parent::__construct();
 	  $this->data['load_page'] = null;
+	  $this->data['styles'] = array();
+	  $this->data['scripts'] = array();
       }
 
   }

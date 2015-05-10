@@ -8,6 +8,9 @@
 	<link rel="stylesheet" href="/css/bootstrap-theme.min.css">
 
 	<link href="/css/justified-nav.css" rel="stylesheet">
+	<?php foreach ($this->styles as $style): ?> 
+      	<link href="/css/<?= $style ?>.css" rel="stylesheet">
+	  <?php endforeach; ?>
 
     </head>
     <body>
@@ -27,14 +30,13 @@
 		    </div>
 		    <div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
-			    <li class="<?= ($this->load_page == 'home') ? 'activ' : '' ?>"><a href="/">Home</a></li>
+			    <li class="<?= ($this->load_page == 'home') ? 'active' : '' ?>"><a href="/">Home</a></li>
 			    <li class="<?= ($this->load_page == 'forum') ? 'active' : '' ?>"><a href="/index.php/forum">Forum</a></li>
-			    <li class="<?= ($this->load_page == 'help') ? 'activ' : '' ?>"><a href="/index.php/help">Help</a></li>
-
+			    <li class="<?= ($this->load_page == 'help') ? 'active' : '' ?>"><a href="/index.php/help">Help</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-			    <li><a href="/login">Login</a></li>
-			    <li><a href="/register">Register</a></li>
+			    <li class="<?= ($this->load_page == 'login') ? 'active' : '' ?>"><a href="/index.php/login">Login</a></li>
+			    <li class="<?= ($this->load_page == 'register') ? 'active' : '' ?>"><a href="/index.php/register">Register</a></li>
 			</ul>
 		    </div><!--/.nav-collapse -->
 		</div><!--/.container-fluid -->

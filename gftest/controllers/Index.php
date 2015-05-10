@@ -14,9 +14,19 @@
    */
   class Index extends UserController {
 
+      public function __construct() {
+	  parent::__construct();
+	  $this->data['load_page'] = 'home';
+      }
+
       public function Index() {
-	  var_dump($this->data);
-	  $this->view->display('layouts.default');
+
+
+	      $this->view->appendToLayout('helpText', 'home.welcomeText');
+	      $this->view->appendToLayout('answeredWuestions', 'home.answeredWuestions');
+	      $this->view->appendToLayout('newQuestions', 'home.newQuestions');
+	      $this->view->display('layouts.home', $this->data);
+
       }
 
   }

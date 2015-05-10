@@ -58,7 +58,7 @@
       }
 
       public function post($name, $normalize = null, $default = null) {
-	  if ($this->hasGet($name)) {
+	  if ($this->hasPost($name)) {
 	      if ($normalize != null) {
 		  return \GF\Common::normalize($this->_post[$name], $normalize);
 	      }

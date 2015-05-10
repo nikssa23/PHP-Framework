@@ -45,10 +45,10 @@
 	      $this->_data = array_merge($this->_data, $data);
 	  }
 	  if (count($this->_layoutParts) > 0) {
-	      foreach ($this->_layoutParts as $key => $value) {
+	      foreach ($this->_layoutParts as $key => $v) {
 		  $r = $this->_includeFile($v);
 		  if ($r) {
-		      $this->_layoutData[$k] = $r;
+		      $this->_layoutData[$key] = $r;
 		  }
 	      }
 	  }

@@ -4,8 +4,8 @@
   $cnf['default_method'] = 'Index';
   $cnf['namespaces']['Controllers'] = 'D:\wamp\www\GF\gftest\controllers\\';
 
-  $cnf['session']['autostart'] = true;
-  $cnf['session']['type'] = 'database'; // native, database
+  $cnf['session']['autostart'] = false;
+  $cnf['session']['type'] = 'native'; // native, database
   $cnf['session']['name'] = '__sess';
   $cnf['session']['lifetime'] = 3600;
   $cnf['session']['path'] = '/';
