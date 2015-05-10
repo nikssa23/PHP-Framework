@@ -21,6 +21,18 @@
 	  $this->data['load_page'] = null;
 	  $this->data['styles'] = array();
 	  $this->data['scripts'] = array();
+	  $this->data['errors'] = array();
+	  $this->data['success'] = array();
+	  $this->checkLogin();
+      }
+
+      private function checkLogin() {
+	  if ($this->session->isLoged) {
+	      $this->data['isLoged'] = true;
+	      $this->data['userId'] = $this->session->userId;
+	  } else {
+	      $this->data['isLoged'] = false;
+	  }
       }
 
   }

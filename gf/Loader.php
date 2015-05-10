@@ -25,7 +25,6 @@
       }
 
       public static function loadClass($class) {
-
 	  foreach (self::$namespaces as $k => $v) {
 	      if (strpos($class, $k) === 0) {
 		  // var_dump($class);

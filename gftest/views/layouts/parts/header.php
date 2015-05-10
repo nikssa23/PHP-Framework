@@ -34,10 +34,17 @@
 			    <li class="<?= ($this->load_page == 'forum') ? 'active' : '' ?>"><a href="/index.php/forum">Forum</a></li>
 			    <li class="<?= ($this->load_page == 'help') ? 'active' : '' ?>"><a href="/index.php/help">Help</a></li>
 			</ul>
-			<ul class="nav navbar-nav navbar-right">
-			    <li class="<?= ($this->load_page == 'login') ? 'active' : '' ?>"><a href="/index.php/login">Login</a></li>
-			    <li class="<?= ($this->load_page == 'register') ? 'active' : '' ?>"><a href="/index.php/register">Register</a></li>
-			</ul>
+			<?php if (!$this->isLoged): ?>
+      			<ul class="nav navbar-nav navbar-right">
+      			    <li class="<?= ($this->load_page == 'login') ? 'active' : '' ?>"><a href="/index.php/login">Login</a></li>
+      			    <li class="<?= ($this->load_page == 'register') ? 'active' : '' ?>"><a href="/index.php/register">Register</a></li>
+      			</ul>
+			  <?php else:; ?>
+      			<ul class="nav navbar-nav navbar-right">
+      			    <li class="<?= ($this->load_page == 'login') ? 'active' : '' ?>"><a href="/index.php/login">Профил</a></li>
+      			    <li class="<?= ($this->load_page == 'register') ? 'active' : '' ?>"><a href="/index.php/register">Изход</a></li>
+      			</ul>
+			<?php endif; ?>
 		    </div><!--/.nav-collapse -->
 		</div><!--/.container-fluid -->
 	    </nav>

@@ -26,6 +26,17 @@
       }
 
       public function autenticate() {
+	  var_dump($this->input->post('email'));
+      }
+
+      public function doLogin($userId) {
+	  $this->session->isLoged = true;
+	  $this->session->userId = $userId;
+      }
+
+      public function logout() {
+	  $this->session->destroySession();
+	  header('Location: http://gftest.loc/');
       }
 
   }

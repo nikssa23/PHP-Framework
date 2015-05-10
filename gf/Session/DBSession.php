@@ -29,7 +29,7 @@
 	  $this->secure = $secure;
 	  $this->sessionId = $_COOKIE[$name];
 	  if (rand(0, 50) == 1) {
-	      $this->_dc();
+	      $this->_gc();
 	  }
 	  if (strlen($this->sessionId) < 32) {
 	      $this->_startNewSession();
