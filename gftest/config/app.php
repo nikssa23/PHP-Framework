@@ -1,7 +1,7 @@
 <?php
 
   $cnf['default_controller'] = 'Index';
-  $cnf['default_method'] = 'Index2';
+  $cnf['default_method'] = 'Index';
   $cnf['namespaces']['Controllers'] = 'D:\wamp\www\GF\gftest\controllers\\';
 
   $cnf['session']['autostart'] = true;

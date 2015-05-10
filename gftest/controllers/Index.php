@@ -12,18 +12,11 @@
    * Description of Index
    * @author Nikolay Velchev <n.velchev95@gmail.com>
    */
-  class Index {
+  class Index extends UserController {
 
-      public function Index2() {
-	  $inpputData = new \GF\InputData::getInstance()->get(0);
-	  $val = new \GF\Validation();
-	  $val->setRule('minlenght', 'niki', 12,'gre6no e be gre6no e ');
-	  var_dump($val->validate());
-	  var_dump($val->getErrors());
-
-	  $view = \GF\View::getInstance();
-	  $view->appendToLayout('pice', 'index');
-	  $view->display('ladyouts.default');
+      public function Index() {
+	  var_dump($this->data);
+	  $this->view->display('layouts.default');
       }
 
   }

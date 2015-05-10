@@ -83,7 +83,7 @@
        */
       public static function getInstance() {
 	  if (self::$_instance == null) {
-	      self::$_instance = new \GF\App();
+	      self::$_instance = new \GF\InputData();
 	  }
 
 	  return self::$_instance;

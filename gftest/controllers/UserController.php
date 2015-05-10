@@ -6,19 +6,20 @@
    * and open the template in the editor.
    */
 
-  namespace Controllers\Admin;
+  namespace Controllers;
 
   /**
-   * Description of Index
+   * Description of UserController
    * @author Nikolay Velchev <n.velchev95@gmail.com>
    */
-  class Index {
-      public function index2(){
-	  echo 'basi kefa';
+  class UserController extends \GF\DefaultController {
+
+      protected $data = null;
+
+      public function __construct() {
+	  parent::__construct();
+	  $this->data['load_page'] = null;
       }
-      
-       public function create(){
-	  echo 'basi kefa 2';
-      }
+
   }
   
